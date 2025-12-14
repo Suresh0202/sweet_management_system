@@ -1,0 +1,19 @@
+/* Sweet Search Styles */
+.sweet-search {
+  margin-bottom: 2rem;
+}
+
+.sweet-search input {
+  width: 100%;
+  max-width: 500px;
+  padding: 0.75rem;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 1rem;
+}
+
+.sweet-search input:focus {
+  outline: none;
+  border-color: #007bff;
+  box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+}

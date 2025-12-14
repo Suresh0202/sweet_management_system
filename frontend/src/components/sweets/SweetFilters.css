@@ -1,0 +1,19 @@
+/* Sweet Filters Styles */
+.sweet-filters {
+  margin-bottom: 2rem;
+}
+
+.sweet-filters select {
+  padding: 0.75rem;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 1rem;
+  background-color: white;
+  cursor: pointer;
+}
+
+.sweet-filters select:focus {
+  outline: none;
+  border-color: #007bff;
+  box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+}

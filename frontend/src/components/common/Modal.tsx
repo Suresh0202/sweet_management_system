@@ -1,0 +1,32 @@
+import React, { ReactNode } from 'react';
+import { X } from 'lucide-react';
+import './Modal.css';
+
+interface ModalProps {
+  isOpen: boolean;
+  title: string;
+  children: ReactNode;
+  onClose: () => void;
+}
+
+const Modal: React.FC<ModalProps> = ({ isOpen, title, children, onClose }) => {
+  if (!isOpen) return null;
+
+  return (
+    <div className="modal-overlay" onClick={onClose}>
+      <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+        <div className="modal-header">
+          <h2>{title}</h2>
+          <button className="close-button" onClick={onClose} aria-label="Close">
+            <X size={24} />
+          </button>
+        </div>
+        <div className="modal-body">
+          {children}
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default Modal;
