@@ -27,3 +27,13 @@ export interface SweetUpdate {
   category?: string;
   image_url?: string;
 }
+
+export type CreateSweetRequest = SweetCreate;
+export type UpdateSweetRequest = SweetUpdate;
+
+export interface SearchSweetsParams {
+  q?: string;
+  category?: string;
+  skip?: number;
+  limit?: number;
+}

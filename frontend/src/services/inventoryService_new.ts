@@ -23,11 +23,13 @@ export const inventoryService = {
    */
   async restock(sweetId: number, quantity: number, notes?: string): Promise<void> {
     try {
-      await api.post(`/inventory/restock`, {
+      const payload = {
         sweet_id: sweetId,
-        quantity,
-        notes,
-      });
+        quantity: Number(quantity),
+        notes: notes || "",
+      };
+      console.log('Restock payload:', payload);
+      await api.post(`/inventory/restock`, payload);
     } catch (error) {
       console.error(`Error restocking sweet ${sweetId}:`, error);
       throw error;
@@ -45,10 +47,23 @@ export const inventoryService = {
         );
         return response.data;
       }
-      const response = await api.get<PurchaseHistory[]>('/purchases');
-      return response.data;
+      // Get all user purchases
+      const response = await api.get<any>('/inventory/purchases');
+      return response.data?.data || [];
     } catch (error) {
       console.error('Error fetching purchase history:', error);
+      return [];
+    }
+  },
+
+  /**
+   * Clear all purchase history for current user
+   */
+  async clearPurchaseHistory(): Promise<void> {
+    try {
+      await api.delete('/inventory/purchases');
+    } catch (error) {
+      console.error('Error clearing purchase history:', error);
       throw error;
     }
   },

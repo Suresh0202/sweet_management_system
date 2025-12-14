@@ -58,7 +58,17 @@ class SweetRepository:
         return sweet
     
     def delete(self, sweet: Sweet) -> bool:
-        """Delete sweet"""
+        """Delete sweet - cascade delete inventory logs and purchases"""
+        from app.models.inventory_log import InventoryLog
+        from app.models.purchase import PurchaseHistory
+        
+        # Delete related inventory logs first
+        self.db.query(InventoryLog).filter(InventoryLog.sweet_id == sweet.id).delete()
+        
+        # Delete related purchases
+        self.db.query(PurchaseHistory).filter(PurchaseHistory.sweet_id == sweet.id).delete()
+        
+        # Delete the sweet
         self.db.delete(sweet)
         self.db.commit()
         return True

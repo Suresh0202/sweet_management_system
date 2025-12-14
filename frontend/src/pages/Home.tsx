@@ -20,7 +20,7 @@ export const Home: React.FC = () => {
   const [error, setError] = useState('');
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('');
-  const [message, setMessage] = useState({ text: '', type: 'success' });
+  const [message, setMessage] = useState<{ text: string; type: 'success' | 'error' | 'warning' | 'info' }>({ text: '', type: 'success' });
 
   useEffect(() => {
     loadSweets();
@@ -50,7 +50,7 @@ export const Home: React.FC = () => {
     if (searchQuery) {
       filtered = filtered.filter((sweet) =>
         sweet.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        sweet.category.toLowerCase().includes(searchQuery.toLowerCase())
+        (sweet.category?.toLowerCase().includes(searchQuery.toLowerCase()) ?? false)
       );
     }
 
@@ -76,7 +76,7 @@ export const Home: React.FC = () => {
     }
   };
 
-  const showMessage = (text: string, type: string = 'success') => {
+  const showMessage = (text: string, type: 'success' | 'error' | 'warning' | 'info' = 'success') => {
     setMessage({ text, type });
     setTimeout(() => setMessage({ text: '', type: 'success' }), 3000);
   };

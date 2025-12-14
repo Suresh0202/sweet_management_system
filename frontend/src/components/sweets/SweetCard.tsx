@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Sweet } from '../../types/sweet';
 import { ShoppingCart, Package } from 'lucide-react';
 import './SweetCard.css';
@@ -42,7 +42,7 @@ const SweetCard: React.FC<SweetCardProps> = ({ sweet, onPurchase }) => {
 
         <div className="sweet-footer">
           <div className="price-stock">
-            <span className="price">${(sweet.price as number).toFixed(2)}</span>
+            <span className="price">₹{(sweet.price as number).toFixed(2)}</span>
             <span className={`stock ${sweet.quantity > 0 ? 'in-stock' : 'out-of-stock'}`}>
               {sweet.quantity > 0 ? `${sweet.quantity} in stock` : 'Out of Stock'}
             </span>

@@ -1,6 +1,5 @@
 import api from './api';
 import { Sweet, CreateSweetRequest, UpdateSweetRequest, SearchSweetsParams } from '../types/sweet';
-import { ApiResponse } from '../types/api';
 
 export const sweetService = {
   /**
@@ -71,10 +70,12 @@ export const sweetService = {
   /**
    * Delete a sweet (Admin only)
    */
-  async delete(id: number): Promise<void> {
+  async delete(id: number): Promise<any> {
     try {
-      await api.delete(`/sweets/${id}`);
-    } catch (error) {
+      const response = await api.delete(`/sweets/${id}`);
+      console.log('Delete response:', response);
+      return response.data;
+    } catch (error: any) {
       console.error(`Error deleting sweet ${id}:`, error);
       throw error;
     }

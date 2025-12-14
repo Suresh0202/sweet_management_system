@@ -18,7 +18,7 @@ export const AdminPanel: React.FC = () => {
   const [sweets, setSweets] = useState<Sweet[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
-  const [message, setMessage] = useState({ text: '', type: 'success' });
+  const [message, setMessage] = useState<{ text: string; type: 'success' | 'error' | 'warning' | 'info' }>({ text: '', type: 'success' });
 
   const [showAddModal, setShowAddModal] = useState(false);
   const [showEditModal, setShowEditModal] = useState(false);
@@ -103,11 +103,17 @@ export const AdminPanel: React.FC = () => {
     if (!confirm('Are you sure you want to delete this sweet?')) return;
 
     try {
-      await sweetService.delete(sweetId);
+      const result = await sweetService.delete(sweetId);
+      console.log('Delete result:', result);
       showMessage('Sweet deleted successfully', 'success');
-      loadSweets();
+      // Reload sweets after short delay to ensure deletion is processed
+      setTimeout(() => {
+        loadSweets();
+      }, 500);
     } catch (err: any) {
-      showMessage(err.response?.data?.detail || 'Failed to delete sweet', 'error');
+      console.error('Delete error:', err);
+      const errorMsg = err.response?.data?.detail || err.message || 'Failed to delete sweet';
+      showMessage(errorMsg, 'error');
     }
   };
 
@@ -120,11 +126,13 @@ export const AdminPanel: React.FC = () => {
       setShowRestockModal(false);
       loadSweets();
     } catch (err: any) {
-      showMessage(err.response?.data?.detail || 'Failed to restock sweet', 'error');
+      const errorMsg = err.response?.data?.detail || err.message || 'Failed to restock sweet';
+      const messageText = typeof errorMsg === 'string' ? errorMsg : JSON.stringify(errorMsg);
+      showMessage(messageText, 'error');
     }
   };
 
-  const showMessage = (text: string, type: string = 'success') => {
+  const showMessage = (text: string, type: 'success' | 'error' | 'warning' | 'info' = 'success') => {
     setMessage({ text, type });
     setTimeout(() => setMessage({ text: '', type: 'success' }), 3000);
   };
@@ -166,7 +174,7 @@ export const AdminPanel: React.FC = () => {
                 <tr key={sweet.id}>
                   <td>{sweet.name}</td>
                   <td>{sweet.category}</td>
-                  <td>${(sweet.price as number).toFixed(2)}</td>
+                  <td>₹{(sweet.price as number).toFixed(2)}</td>
                   <td>{sweet.quantity}</td>
                   <td className="actions">
                     <button

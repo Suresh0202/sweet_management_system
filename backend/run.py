@@ -20,7 +20,8 @@ def find_available_port(start_port=8000, end_port=8010):
 
 if __name__ == "__main__":
     import uvicorn
-    port = find_available_port()
+    # Use port 8001 explicitly for the backend API
+    port = 8001
     print(f"Using port: {port}")
     uvicorn.run(
         "app.main:app",

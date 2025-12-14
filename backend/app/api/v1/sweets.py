@@ -67,7 +67,7 @@ def update_sweet(
     return sweet
 
 
-@router.delete("/{sweet_id}", status_code=status.HTTP_204_NO_CONTENT)
+@router.delete("/{sweet_id}")
 def delete_sweet(
     sweet_id: int,
     current_user = Depends(get_current_admin),
@@ -82,3 +82,5 @@ def delete_sweet(
             status_code=status.HTTP_404_NOT_FOUND,
             detail="Sweet not found"
         )
+    
+    return {"success": True, "message": "Sweet deleted successfully"}

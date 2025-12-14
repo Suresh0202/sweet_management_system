@@ -47,7 +47,7 @@ class InventoryService:
         
         return purchase
     
-    def restock_sweet(self, sweet_id: int, quantity: int, performed_by_id: int):
+    def restock_sweet(self, sweet_id: int, quantity: int, user_id: int, notes: str = ""):
         """Restock a sweet"""
         sweet = self.sweet_repo.get_by_id(sweet_id)
         
@@ -63,8 +63,8 @@ class InventoryService:
             sweet_id=sweet_id,
             action="RESTOCK",
             quantity_change=quantity,
-            performed_by=performed_by_id,
-            notes=f"Restock of {quantity} units"
+            performed_by=user_id,
+            notes=notes or f"Restock of {quantity} units"
         )
         
         return log

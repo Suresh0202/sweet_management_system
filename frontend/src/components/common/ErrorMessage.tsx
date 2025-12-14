@@ -27,6 +27,7 @@ const ErrorMessage: React.FC<ErrorMessageProps> = ({
       }, duration);
       return () => clearTimeout(timer);
     }
+    return undefined;
   }, [show, autoClose, duration, onClose]);
 
   if (!show) return null;
